@@ -27,7 +27,7 @@ TBA
 ### Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/mrnithesh/DiagramBot.ai.git
+    git clone https://github.com/mrnithesh/DiagramBot-ai.git
     cd DiagramBot.ai
     ```
 
@@ -95,7 +95,7 @@ Contributions are welcome! Here's how you can help:
 5. **Open a pull request** with a description of your changes.
 
 ## Issues and Feedback 💡
-If you encounter any bugs or have feature requests, feel free to open an issue in the [Issues section](https://github.com/your-username/DiagramBot.ai/issues). I’m always open to feedback and ideas to improve the tool.
+If you encounter any bugs or have feature requests, feel free to open an issue in the [Issues section](https://github.com/mrnithesh/DiagramBot-ai/issues). I’m always open to feedback and ideas to improve the tool.
 
 ## License 📄
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
