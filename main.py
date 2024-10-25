@@ -8,7 +8,7 @@ from PIL import Image, UnidentifiedImageError
 from io import BytesIO
 
 # Set page layout to wide
-st.set_page_config(layout="wide", page_title="Mermaid Diagram Chatbot", page_icon="🌐")
+st.set_page_config(layout="wide", page_title="Mermaid Diagram Chatbot", page_icon="✏️")
 
 # Configure the Google Generative AI model with your API key
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -240,11 +240,9 @@ col1, col2 = st.columns([1.5, 1])  # Adjusted column width as requested
 
 # Left Column: Chat section
 with col1:
-    st.title("Chat with the AI 💬")
+    st.title("DiagramBot.ai 🤖🎨")
 
-    st.markdown("### Interact with the AI to generate Mermaid diagrams based on your input.")
-    st.markdown("Ask the bot to generate a diagram, and it will automatically render and display the diagram. You can edit the code later if needed.")
-
+    st.markdown("### Interact with the AI to generate diagrams based on your input.💬")
     # Display chat history
     for role, text in st.session_state.chat_history:
         if role == "You":
@@ -270,10 +268,17 @@ with col1:
             st.rerun()  # Trigger a rerun to refresh the image
 
     st.text_input("Enter your input for Mermaid diagram generation:", key="user_input", on_change=process_user_input)
+    if st.button("Clear Chat"):
+        st.session_state.chat_history = []  # Clear the chat history
+        st.session_state.chat = genai.GenerativeModel(
+            model_name="gemini-1.5-flash",
+            generation_config=generation_config
+        ).start_chat(history=[])
+        st.rerun()  # Rerun the app to reflect the changes
+
 
 # Right Column: Diagram and Code section
 with col2:
-    st.title("Diagram and Code 🖥️")
 
     # Three tabs: one for the diagram, one for editing the code, and an "About" tab
     tab1, tab2, tab3 = st.tabs(["Diagram", "Code", "About"])
@@ -313,16 +318,41 @@ with col2:
             st.write("The Mermaid code will appear here for editing after generation.")
 
     with tab3:
-        st.subheader("About the Mermaid Diagram Chatbot")
+        st.subheader("Hello! I'm **Nithesh** 👋, the creator of **DiagramBot.ai** 🤖.")
         st.markdown("""
-        Welcome to the **Mermaid Diagram Chatbot**! This application allows you to interact with an AI to automatically generate and modify diagrams using the **Mermaid** syntax. 
-        Here's how it works:
-        
-        1. **Chat with the AI**: Enter your input in the chat, and the AI will generate a Mermaid diagram based on your instructions.
-        2. **View the Diagram**: Once the diagram is generated, it will appear in the "Diagram" tab. You can download it as an image, PDF, or the code itself.
-        3. **Edit the Code**: If you want to make changes to the diagram manually, you can edit the Mermaid code in the "Code" tab and regenerate the diagram.
-        
-        This tool is designed to make it easier to create, edit, and download diagrams through natural conversation and AI-driven code generation.
-        
-        **Enjoy building your diagrams!** ✨
-        """)
+            ### What DiagramBot.ai Offers:
+            **DiagramBot.ai** harnesses the power of **Google Generative AI** to simplify the process of creating diagrams. Instead of manually designing diagrams or learning complex syntax, users can rely on the AI to automatically generate various diagram types by simply interacting with the tool 🌟. Here are the supported diagrams you can create with **DiagramBot.ai**:
+            - **Flowcharts** (e.g., `graph TD`, `graph LR`)
+            - **Pie Charts** (`pie`)
+            - **Gantt Charts** (`gantt`)
+            - **Sequence Diagrams** (`sequenceDiagram`)
+            - **Class Diagrams** (`classDiagram`)
+            - **State Diagrams** (`stateDiagram`)
+            - **Entity-Relationship Diagrams (ERD)** (`erDiagram`)
+            
+            #### Key Features:
+            - **Easy Interaction**: Chat with the AI to describe the diagram you need, and it will instantly generate the corresponding Mermaid code for you 🧠.
+            - **AI-Powered Accuracy**: **DiagramBot.ai** uses **Google Generative AI** to understand your input and produce accurate diagrams tailored to your needs.
+            - **Versatile Output**: Diagrams can be downloaded in **PNG**, **PDF**, or **Mermaid code** formats, allowing you to easily integrate them into your workflows.
+            
+            Whether you're a developer, project manager, or creative professional, **DiagramBot.ai** is designed to help you visualize data and processes effortlessly 🚀.
+            
+            ### About Me:
+            I'm a passionate developer with a deep interest in **AI** 🧠, **Natural Language Processing (NLP)** 🗣️, **Blockchain Technology** 🔗, and how technology can streamline complex workflows, such as generating visual diagrams, through automation.
+
+            ### My background:
+            - 🎓 **Pursuing Bachelor of Engineering** in Computer Science, specializing in IoT, Cybersecurity, and Blockchain Technology at **SNS College of Engineering**, Coimbatore, India.
+            - 💼 **Intern at SNS innovationHub**, where I explore and develop innovative, AI-driven solutions for various industries.
+
+            ### Other Projects:
+            1. 📝 **AI-Powered Resume Builder** – A tool to generate **ATS-friendly resumes** with AI assistance.
+            2. 🔍 **AI-Powered Resume Analyzer** – An app that analyzes resumes and provides **feedback** for improvement.
+            3. 💰 **AI-Powered Expense Tracker App** – An Android app that helps users **track and manage expenses** through AI-powered insights.
+            4. 🧠 **Nila AI Therapist** – An AI-powered therapist designed to support **mental health** and well-being 🌱.[Try now!](https://ai-nila.streamlit.app/)
+
+            ### Connect with me:
+            - 🖥️ **GitHub**: [github.com/mrnithesh](https://github.com/mrnithesh)
+            - 💼 **LinkedIn**: [linkedin.com/in/mrnithesh](https://linkedin.com/in/mrnithesh)
+
+            I'm always open to **feedback** 💡 and **collaboration** 🤝. Feel free to reach out if you have any questions, ideas, or suggestions for DiagramBot.ai!
+            """)
