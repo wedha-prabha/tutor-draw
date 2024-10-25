@@ -8,7 +8,7 @@ from PIL import Image, UnidentifiedImageError
 from io import BytesIO
 
 # Set page layout to wide
-st.set_page_config(layout="wide", page_title="Mermaid Diagram Chatbot", page_icon="✏️")
+st.set_page_config(layout="wide", page_title="DiagramBot.ai", page_icon="✏️")
 
 # Configure the Google Generative AI model with your API key
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
