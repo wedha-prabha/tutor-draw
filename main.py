@@ -6,6 +6,7 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image, UnidentifiedImageError
 from io import BytesIO
+import time
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="DiagramBot.ai", page_icon="✏️")
@@ -41,24 +42,23 @@ def filter_non_mermaid_text(response):
     return re.sub(r"```mermaid.*?```", "", response, flags=re.DOTALL).strip()
 
 # Function to render Mermaid diagram using mermaid.ink
-def convert_mermaid_to_image(mermaid_code):
-    """Convert the Mermaid code into an image (PNG) using mermaid.ink."""
+def fetch_mermaid_image(mermaid_code, retries=3, delay=2):
+    """Fetch the image from mermaid.ink with retry on failure."""
     url = "https://mermaid.ink/img/"
     encoded_mermaid = base64.b64encode(mermaid_code.encode()).decode()
     image_url = f"{url}{encoded_mermaid}"
     
-    # Fetch the image from the third-party service
-    try:
-        response = requests.get(image_url)
-        response.raise_for_status()  # Raise an error for HTTP issues
-        img = Image.open(BytesIO(response.content))
-        return img
-    except UnidentifiedImageError:
-        st.error("Failed to generate image from Mermaid code: The image is not valid. Please check the code format.")
-        return None
-    except requests.RequestException as e:
-        st.error(f"Failed to fetch the image from the service: {e}")
-        return None
+    for attempt in range(retries):
+        try:
+            response = requests.get(image_url)
+            response.raise_for_status()
+            return Image.open(BytesIO(response.content))
+        except (requests.RequestException, UnidentifiedImageError) as e:
+            if attempt < retries - 1:  # Avoid sleeping after the last attempt
+                time.sleep(delay)
+            else:
+                st.error(f"Failed to fetch the image from the service after {retries} attempts: {e}")
+                return None
 
 # Function to create a download link for the Mermaid diagram as an image
 def download_mermaid_image(img):
@@ -280,7 +280,7 @@ with col1:
     if st.button("Clear Chat"):
         st.session_state.chat_history = []  # Clear the chat history
         st.session_state.chat = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-1.5-pro",
             generation_config=generation_config
         ).start_chat(history=[])
         st.rerun()  # Rerun the app to reflect the changes
@@ -293,7 +293,7 @@ with col2:
     tab1, tab2, tab3 = st.tabs(["Diagram", "Code", "About"])
 
     with tab1:
-        st.subheader("Generated Mermaid Diagram")
+        st.subheader("Generated Diagram")
 
         # Automatically render Mermaid diagram after AI response
         if 'mermaid_code' in st.session_state and st.session_state.mermaid_code:
