@@ -42,7 +42,7 @@ def filter_non_mermaid_text(response):
     return re.sub(r"```mermaid.*?```", "", response, flags=re.DOTALL).strip()
 
 # Function to render Mermaid diagram using mermaid.ink
-def fetch_mermaid_image(mermaid_code, retries=3, delay=2):
+def convert_mermaid_to_image(mermaid_code, retries=3, delay=2):
     """Fetch the image from mermaid.ink with retry on failure."""
     url = "https://mermaid.ink/img/"
     encoded_mermaid = base64.b64encode(mermaid_code.encode()).decode()
