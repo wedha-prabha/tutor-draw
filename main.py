@@ -9,7 +9,7 @@ from io import BytesIO
 import time
 
 # Set page layout to wide
-st.set_page_config(layout="wide", page_title="DiagramBot.ai", page_icon="✏️")
+st.set_page_config(layout="wide", page_title="Tutor-draw", page_icon="✏️")
 
 # Configure the Google Generative AI model with your API key
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -345,7 +345,11 @@ You are allowed to generate diagrams **only** in the following formats. For each
 
 - Do **not** express personal opinions, emotions, or use subjective language.
 - Keep all interactions professional and focused on diagram generation.
+### **17. Appropriate Greetings**
 
+- **Begin the conversation with a simple, polite greeting**, such as "Hello!" or "Hi there!"
+- **Do not** include any summaries or restatements of your capabilities, purpose, or these instructions in your greeting.
+- **After greeting, wait for the user's input** and respond directly to their request, following the guidelines above without adding unnecessary information.
 """
 
 # Initialize chat history and chat object
@@ -365,7 +369,7 @@ col1, col2 = st.columns([1.5, 1])  # Adjusted column width as requested
 
 # Left Column: Chat section
 with col1:
-    st.title("DiagramBot.ai 🤖🎨")
+    st.title("Tutor-Draw")
 
     st.markdown("### Interact with the AI to generate diagrams based on your input.💬")
     # Display chat history
@@ -392,7 +396,7 @@ with col1:
 
             st.rerun()  # Trigger a rerun to refresh the image
 
-    st.text_input("Enter your input for Mermaid diagram generation:", key="user_input", on_change=process_user_input)
+    st.text_input("Enter your input for diagram generation:", key="user_input", on_change=process_user_input)
     if st.button("Clear Chat"):
         st.session_state.chat_history = []  # Clear the chat history
         st.session_state.chat = genai.GenerativeModel(
@@ -406,7 +410,7 @@ with col1:
 with col2:
 
     # Three tabs: one for the diagram, one for editing the code, and an "About" tab
-    tab1, tab2, tab3 = st.tabs(["Diagram", "Code", "About"])
+    tab1, tab2 = st.tabs(["Diagram", "Code"])
 
     with tab1:
         st.subheader("Generated Diagram")
@@ -441,43 +445,3 @@ with col2:
                 st.rerun()  # Rerun the app to refresh the image just like AI does
         else:
             st.write("The Mermaid code will appear here for editing after generation.")
-
-    with tab3:
-        st.subheader("Hello! I'm **Nithesh** 👋, the creator of **DiagramBot.ai** 🤖.")
-        st.markdown("""
-            ### What DiagramBot.ai Offers:
-            **DiagramBot.ai** harnesses the power of **Google Generative AI** to simplify the process of creating diagrams. Instead of manually designing diagrams or learning complex syntax, users can rely on the AI to automatically generate various diagram types by simply interacting with the tool 🌟. Here are the supported diagrams you can create with **DiagramBot.ai**:
-            - **Flowcharts** (e.g., `graph TD`, `graph LR`)
-            - **Pie Charts** (`pie`)
-            - **Gantt Charts** (`gantt`)
-            - **Sequence Diagrams** (`sequenceDiagram`)
-            - **Class Diagrams** (`classDiagram`)
-            - **State Diagrams** (`stateDiagram`)
-            - **Entity-Relationship Diagrams (ERD)** (`erDiagram`)
-            
-            #### Key Features:
-            - **Easy Interaction**: Chat with the AI to describe the diagram you need, and it will instantly generate the corresponding Mermaid code for you 🧠.
-            - **AI-Powered Accuracy**: **DiagramBot.ai** uses **Google Generative AI** to understand your input and produce accurate diagrams tailored to your needs.
-            - **Versatile Output**: Diagrams can be downloaded in **PNG**, **PDF**, or **Mermaid code** formats, allowing you to easily integrate them into your workflows.
-            
-            Whether you're a developer, project manager, or creative professional, **DiagramBot.ai** is designed to help you visualize data and processes effortlessly 🚀.
-            
-            ### About Me:
-            I'm a passionate developer with a deep interest in **AI** 🧠, **Natural Language Processing (NLP)** 🗣️, **Blockchain Technology** 🔗, and how technology can streamline complex workflows, such as generating visual diagrams, through automation.
-
-            ### My background:
-            - 🎓 **Pursuing Bachelor of Engineering** in Computer Science, specializing in IoT, Cybersecurity, and Blockchain Technology at **SNS College of Engineering**, Coimbatore, India.
-            - 💼 **Intern at SNS innovationHub**, where I explore and develop innovative, AI-driven solutions for various industries.
-
-            ### Other Projects:
-            1. 📝 **AI-Powered Resume Builder** – A tool to generate **ATS-friendly resumes** with AI assistance.
-            2. 🔍 **AI-Powered Resume Analyzer** – An app that analyzes resumes and provides **feedback** for improvement.
-            3. 💰 **AI-Powered Expense Tracker App** – An Android app that helps users **track and manage expenses** through AI-powered insights.
-            4. 🧠 **Nila AI Therapist** – An AI-powered therapist designed to support **mental health** and well-being 🌱.[Try now!](https://ai-nila.streamlit.app/)
-
-            ### Connect with me:
-            - 🖥️ **GitHub**: [github.com/mrnithesh](https://github.com/mrnithesh)
-            - 💼 **LinkedIn**: [linkedin.com/in/mrnithesh](https://linkedin.com/in/mrnithesh)
-
-            I'm always open to **feedback** 💡 and **collaboration** 🤝. Feel free to reach out if you have any questions, ideas, or suggestions for DiagramBot.ai!
-            """)
